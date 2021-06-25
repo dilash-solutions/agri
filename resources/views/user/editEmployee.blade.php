@@ -5,11 +5,11 @@
 <script src="{{ asset('js/app.js') }}" defer></script>
 
 <!-- Styles -->
-<link href="{{ asset('css/app.css') }}" rel="stylesheet">
+<link href="{{ asset('css/app1.css') }}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{ url('/css/style.css') }}" >
 
 </head>
-<body id="admin">
+<body id="admin" onload="route()">
 
 <header>
      <x-navbar/> 
@@ -23,9 +23,19 @@
 @endif
 <div class="container-fluid" style="min-height:550px">
 
-<div class="row">
+<div class="row" style="min-height: 550px;">
 
-<div class="col-md-5" style="padding-top:100px"> 
+
+<div class="col-md-3 col-lg-2" style="background-color: #26391f;">
+
+<div class="col-sm-10 pt-5" style="font-weight: bold;">
+
+<x-sidebar />
+</div>
+</div>
+
+
+<div class="col-lg-4 col-md-9" style="padding-top:100px"> 
 
 <form action="/edit" method="post">
                                 @csrf 
@@ -73,7 +83,7 @@
 
 </div>
 
-<div class="col-md-7">
+<div class="col-lg-6">
 
 
 <div class="btn-group" role="group" >
@@ -152,6 +162,12 @@
 </div> <!--row -->
 </div>
 <script>
+
+function route(){
+  document.getElementById("employee").style.backgroundColor="#79797985"; 
+
+}
+
 function showcontent(id, isclicked){
     var show = 'show_' + id;
     var content = 'content_' +id;

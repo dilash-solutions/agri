@@ -12,6 +12,8 @@ use App\Models\income;
 use App\Models\expence;
 use Carbon\Carbon;
 use laravel\Eloquent;
+use App\Models\Attendance;
+
 
 class Home extends Controller
 {
@@ -26,6 +28,49 @@ class Home extends Controller
       ->get();
       return view('user.welcome',['crops'=>$data,'data'=>$data2]);
   }
+
+  function Attendance()
+    {
+
+        $employees = employee::all();
+        $today = carbon::today();
+        $attendance = attendance::where('date', $today)->get();
+        foreach ($employees as $key => $value) {
+
+            foreach ($attendance as $attend) {
+                if ($attend->emp_id == $value->id) {
+                    $employees->forget($key);
+                }
+            }
+        }
+
+        return view('user.attendance', ['user' => $employees, 'employees' => $attendance]);
+    }
+
+    public function insertAttendance($id)
+    {
+        $data = employee::find($id);
+
+        $attendance = new attendance();
+        $attendance->emp_id = $data->id;
+        $attendance->emp_name = $data->name;
+        $attendance->date = Carbon::today();
+        $attendance->created_at = Carbon::now();
+        $attendance->updated_at = Carbon::now();
+        $attendance->attendance = 1;
+
+        $attendance->save();
+        return redirect()->back()->with('success', 'Attendance Inserted Successfully!!');
+    }
+
+    public function removeAttendance($id)
+    {
+
+        $data = attendance::find($id);
+        $data->delete();
+        return redirect()->back()->with('success', 'Attendance Deleted Successfully!!');
+    }
+
 
    function AddEmployee(Request $data){
 
